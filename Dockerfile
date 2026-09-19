@@ -8,8 +8,8 @@ WORKDIR /app
 # that already have a fix published in trixie. CVEs without an upstream fix yet
 # (local-only TOCTOU, etc.) remain until the distro patches them and the image
 # is rebuilt; none are reachable from the proxy's request surface at runtime.
-RUN --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-lists,target=/var/lib/apt/lists,sharing=locked \
+RUN s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-cache,target=/var/cache/apt,sharing=locked \
+  s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-lists,target=/var/lib/apt/lists,sharing=locked \
   apt-get update \
   && apt-get upgrade -y \
   && apt-get install -y --no-install-recommends libsecret-1-0 ca-certificates \
@@ -67,8 +67,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 # Build tools for native module compilation
 # apt-get update needed here because base's rm -rf clears the shared cache
-RUN --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-cache,target=/var/cache/apt,sharing=locked \
-  --mount=type=cache,id=s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-lists,target=/var/lib/apt/lists,sharing=locked \
+RUN s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-cache,target=/var/cache/apt,sharing=locked \
+  s/92ca8a61-c1ba-421f-a389-d48ac7258c2d-apt-lists,target=/var/lib/apt/lists,sharing=locked \
   apt-get update \
   && apt-get install -y --no-install-recommends python3 make g++ \
   && rm -rf /var/lib/apt/lists/*
